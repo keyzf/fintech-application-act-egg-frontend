@@ -1,0 +1,230 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+HTML5 display-role reset for older browsers article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+// 以上出自http://meyerweb.com/eric/tools/css/reset/
+// 去掉a,input,button点击时蓝色外边框和灰色半透明
+a,
+button,
+input,
+optgroup,
+select,
+textare {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    border: 0;
+    outline: none;
+}
+
+// 禁止长按显示菜单栏
+a,
+img {
+    -webkit-touch-callout: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+// 流畅滚动
+body {
+    -webkit-overflow-scrolling: touch;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: myFont, sans-serif;
+}
+
+/*这一句是用来解决在安卓上的点击出现篮框问题*/
+body {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+/*下面是解决ios上去除微信点击蓝色边框 */
+a:focus,
+input:focus,
+p:focus,
+div:focus {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-modify: read-write-plaintext-only;
+}
+
+* {
+    -webkit-touch-callout: none;
+    /*系统默认菜单被禁用*/
+    -webkit-user-select: none;
+    /*webkit浏览器*/
+    -khtml-user-select: none;
+    /*早期浏览器*/
+    -moz-user-select: none;
+    /*火狐*/
+    -ms-user-select: none;
+    /*IE10*/
+    user-select: none;
+}
+
+input {
+    -webkit-user-select: auto;
+    /*webkit浏览器*/
+}
+
+textarea {
+    -webkit-user-select: auto;
+    /*webkit浏览器*/
+}
+
+@font-face {
+    font-family: 'Bold';
+    src: url('../font/PingFang Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Light';
+    src: url('../font/PingFang Light.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Medium';
+    src: url('../font/PingFang Medium.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Regular';
+    src: url('../font/PingFang Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}

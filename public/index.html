@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>cczq.png">
+    <title>欢乐砸金蛋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <script src="./jweixin.js"></script>
+</head>
+
+<body>
+    <!-- <script src="https://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
+    <script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.min.js"></script>
+    <!-- <script src="../utils/setShare.js"></script> -->
+    <noscript>
+        <strong>We're sorry but
+            <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script>
+    var ua = navigator.userAgent;
+    var isAndroid = /Android/.test(ua);
+    // window.wx = wx;
+    // js 原生交互代码
+    function connectWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            callback(WebViewJavascriptBridge);
+        } else {
+            document.addEventListener(
+                'WebViewJavascriptBridgeReady',
+                function() {
+                    callback(WebViewJavascriptBridge);
+                },
+                false
+            );
+            if (!isAndroid) {
+                if (window.WebViewJavascriptBridge) {
+                    return callback(WebViewJavascriptBridge);
+                }
+                if (window.WVJBCallbacks) {
+                    return window.WVJBCallbacks.push(callback);
+                }
+                window.WVJBCallbacks = [callback];
+                var WVJBIframe = document.createElement('iframe');
+                WVJBIframe.style.display = 'none';
+                WVJBIframe.src = 'https://__bridge_loaded__';
+                document.documentElement.appendChild(WVJBIframe);
+                setTimeout(function() {
+                    document.documentElement.removeChild(WVJBIframe);
+                }, 0);
+            }
+        }
+    }
+
+    // 注册分享成功回调方法
+    connectWebViewJavascriptBridge(function(bridge) {
+        bridge.registerHandler('appShareCallBackH5', function(data, cb) {
+            window.appConnect.firstShare();
+        });
+    });
+
+    // 从app分享出去后调用这个方法，调分享接口，弹toast
+    function appShareCallBackH5() {
+        window.appConnect.firstShare('window.p');
+    }
+    // 隐藏状态栏
+    // window.hideNativeTitle();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+workspace:
+  base: /root/drone/deploy
+  path: fintech-application-act-egg-frontend
+pipeline:
+  build:
+    image: hub-devops.cgws.com/plugins/node:10.15.2
+    pull: true
+    commands:
+      - npm install --registry https://registry.npm.taobao.org
+      - CI="false" npm run build
+
+  # ----------------------------开发环境------------------------------
+  build_push_dev:
+    image: plugins/docker
+    registry: hub-devops.cgws.com
+    pull: true
+    repo: hub-devops.cgws.com/fintech-application/act-egg-frontend
+    secrets: [docker_username, docker_password]
+    insecure: true
+    dockerfile: ./Dockerfile
+    debug: true
+    tags: ${DRONE_COMMIT_SHA:0:10}
+    when:
+      event: [push]
+      branch: [develop*]
+
+  # ----------------------------开发环境------------------------------
+
+  # ----------------------------测试环境------------------------------
+  build_push_release:
+    image: plugins/docker
+    registry: hub-devops.cgws.com
+    pull: true
+    repo: hub-devops.cgws.com/fintech-application/act-egg-frontend
+    secrets: [docker_username, docker_password]
+    insecure: true
+    dockerfile: ./Dockerfile
+    tags:
+      - ${DRONE_COMMIT_SHA:0:10}
+    when:
+      event: [push]
+      branch: [release/*]
+  # ----------------------------测试环境------------------------------
+  build_push_release2:
+    image: plugins/docker
+    registry: hub-devops.cgws.com
+    pull: true
+    repo: hub-devops.cgws.com/fintech-application/act-egg-frontend
+    secrets: [docker_username, docker_password]
+    insecure: true
+    dockerfile: ./Dockerfile
+    tags:
+      - ${DRONE_BRANCH/\//-}
+    when:
+      event: [push]
+      branch: [release/*]
+  # ----------------------------测试环境2------------------------------
+  # 
+  # ----------------------------生产环境------------------------------
+  build_push_production:
+    image: plugins/docker
+    registry: hub-devops.cgws.com
+    pull: true
+    repo: hub-devops.cgws.com/fintech-application/act-egg-frontend
+    secrets: [docker_username, docker_password]
+    insecure: true
+    dockerfile: ./Dockerfile
+    tags:
+      - ${DRONE_TAG}
+    when:
+      event: [tag]
+  # ----------------------------生产环境------------------------------
+
+
+  # ----------------------------自动部署到开发环境------------------------------
+  deploy_dev:
+    image: hub-devops.cgws.com/devops/drone-k8s-deploy:latest
+    pull: true
+    environment:
+      - K8S_NAMESPACE=fintech-server
+      - REPO=hub-devops.cgws.com/fintech-application/act-egg-frontend
+      - DEPLOYMENTS=application-act-egg-frontend
+      - CONTAINER=application-act-egg-frontend
+      - TAG=${DRONE_COMMIT_SHA:0:10}
+      - DEBUG=true
+    when:
+      event: [push]
+      branch: [develop*]
+  # ----------------------------自动部署到开发环境------------------------------
+
+  # ----------------------------自动部署到测试环境------------------------------
+  deploy_release:
+    image: hub-devops.cgws.com/devops/drone-k8s-deploy:latest
+    pull: true
+    environment:
+      - K8S_NAMESPACE=fintech-app-release
+      - REPO=hub-devops.cgws.com/fintech-application/act-egg-frontend
+      - DEPLOYMENTS=application-act-egg-frontend
+      - CONTAINER=application-act-egg-frontend
+      - TAG=${DRONE_COMMIT_SHA:0:10}
+      - DEBUG=true
+    when:
+      event: [push]
+      branch: [release/*]
+  # ----------------------------自动部署到测试环境------------------------------
